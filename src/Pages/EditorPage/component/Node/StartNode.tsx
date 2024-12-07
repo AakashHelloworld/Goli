@@ -6,10 +6,8 @@ function StartNode({isConnectable } : any) {
     const [connect, setConnect] = useState(false);
 
   return (
-    <Card className="relative dark:border-muted-foreground/70 rounded-full">
-    <CardHeader className="">
-    <CardTitle className="text-md">Start</CardTitle>
-    </CardHeader>
+    <Card className="relative dark:border-muted-foreground/70 w-[100px]  flex justify-center items-center h-[100px]  rounded-full">
+      <h3 className="font-semibold leading-none tracking-tight">Start</h3>
     <Handle
   type="source"
   position={Position.Bottom}
@@ -17,8 +15,7 @@ function StartNode({isConnectable } : any) {
   // isConnectable={isConnectable}
   onConnect={() => setConnect(true)}
   className='bg-[green]'
-  style={{ width: 7, height: 7 , border: '2px solid white'}}
-/>
+  style={{ width:15, height: 15 , border: '2px solid white', backgroundColor: 'black'}}/>
 
 </Card>
   );

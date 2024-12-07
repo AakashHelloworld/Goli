@@ -1,17 +1,10 @@
-import { Home, CloudUpload, CloudDownload, LogOut, ListStart, AlignJustify, Rows4, ListEnd} from "lucide-react";
+import { Home, CloudUpload, CloudDownload, LogOut, ListStart, AlignJustify, ListEnd} from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuAction,
   SidebarFooter,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";

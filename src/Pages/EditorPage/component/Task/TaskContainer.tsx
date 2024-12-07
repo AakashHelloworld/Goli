@@ -8,7 +8,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-  } from "@/components/ui/table"
+} from "@/components/ui/table"
 
   const invoices = [
     {
@@ -66,9 +66,7 @@ import {
       paymentMethod: "Credit Card",
     }
   ]
-   
-
-
+  
 export default function TaskContainer() {
 
     return (    
@@ -92,7 +90,7 @@ export default function TaskContainer() {
                 <Pencil className="h-4 w-4 cursor-pointer "  />
             </TableCell>
             <TableCell className="text-left cursor-pointer">
-                <Trash className="h-4 w-4 cursor-pointer" color="red" />
+                <Trash className="h-4 w-4 cursor-pointer " color="#bd8383" />
             </TableCell>
           </TableRow>
         ))}

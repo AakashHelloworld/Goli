@@ -17,7 +17,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import Container from '../Container/Container';
+import Container from '../EditorContainer';
 import MiddleNode from '../Node/MiddleNode';
 const initialNodes : any = [
 ];
@@ -27,6 +27,7 @@ const initialEdges : any = [];
 const nodeType : any = { startnode: StartNode, endnode: EndNode, middlenode: MiddleNode };
 
 function Flow() {
+  
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
   const [selectNode , setSelectNode] = useState(null)
@@ -56,6 +57,8 @@ function Flow() {
       }
       setNodes((nds : any) => nds.concat(newNode))
 
+      const { x, y, zoom } = reactFlowInstance.getViewport();
+      reactFlowInstance.setViewport({ x, y, zoom });
 
     },
     [reactFlowInstance]
@@ -89,7 +92,7 @@ function Flow() {
   );
 
   const onConnect = useCallback(
-    (params : any) => setEdges((eds : any) => addEdge(params, eds)),
+    (params : any) => setEdges((eds : any) => addEdge({...params, animated: true}, eds)),
     [],
   );
 
@@ -102,12 +105,15 @@ function Flow() {
         edges={edges}
         onDrop={onDrop}
         onInit={setReactFlowInstance}
+        defaultViewport={{ x: 0, y: 0, zoom: 1}}
+        onPaneClick={() => setShow(false)}
         onNodeClick={onNodeClick}
         onDragOver={onDragOver}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeType}
         colorMode='dark'
+        panOnScroll
         fitView
       > 
         <Background 

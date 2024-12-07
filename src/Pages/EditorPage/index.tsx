@@ -1,8 +1,8 @@
-import Flow from "./component/FLow/Flow"
+import Flow from "./component/FLow"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import AppSidebar from './component/Slider/AppSlidebar';
+import AppSidebar from './component/Slider';
 
 export default function Editor() {
 

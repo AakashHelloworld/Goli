@@ -1,6 +1,7 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom"
-import Editor from "./Pages/Editor"
+import Editor from "./Pages/EditorPage"
 import { ThemeProvider } from "@/components/theme"
+import { Login } from "./Pages/LoginPage"
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
        <Routes>
           <Route path="/" element={<Editor />} />
           <Route path="/editor" element={<Editor />} />
+          <Route path="/login" element={<Login />} />
        </Routes>
      </BrowserRouter>
      </ThemeProvider>
