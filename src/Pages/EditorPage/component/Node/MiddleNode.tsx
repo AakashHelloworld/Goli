@@ -23,7 +23,7 @@ function MiddleNode({isConnectable } : any) {
                 OCT, 8th 2022
             </CardDescription>
             <Minus />
-            <CardDescription className="text-sm">
+            <CardDescription className="text-sm"> 
                 OCT, 8th 2022
             </CardDescription>
             </div>
