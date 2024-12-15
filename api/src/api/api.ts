@@ -8,7 +8,7 @@ export class APIRouter {
     static async instance() {
         const router = Router();
 
-        router.use('/user', APIUser.instance());
+        router.use('/auth', APIUser.instance());
 
         // Fall back to 404 for anything else
         router.use(notFound);

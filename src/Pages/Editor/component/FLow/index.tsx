@@ -2,10 +2,10 @@ import { useState, useCallback } from 'react';
 import {
   ReactFlow,
   Controls,
-  Background,
   applyNodeChanges,
   ReactFlowInstance,
   applyEdgeChanges,
+  Background,
   addEdge,
 } from '@xyflow/react';
 import  {v4} from 'uuid';
@@ -51,14 +51,10 @@ function Flow() {
         data: { label: event.dataTransfer.getData('text') },
         position,
       }
-      console.log(newNode)
       if(type === 'middlenode') {
         setShow(true)
       }
       setNodes((nds : any) => nds.concat(newNode))
-
-      const { x, y, zoom } = reactFlowInstance.getViewport();
-      reactFlowInstance.setViewport({ x, y, zoom });
 
     },
     [reactFlowInstance]
@@ -110,17 +106,17 @@ function Flow() {
         onNodeClick={onNodeClick}
         onDragOver={onDragOver}
         onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
+        onConnect={onConnect}    
         nodeTypes={nodeType}
         colorMode='dark'
         panOnScroll
         fitView
       > 
         <Background 
-          gap={12}
+          gap={20}
           size={1}
         />
-        <Controls position='top-left'  />
+        <Controls position='top-right'  />
       </ReactFlow>
       </ResizablePanel>
       { show && 

@@ -3,6 +3,8 @@ import { Server } from "http";
 import { Database } from "./database";
 import { APIRouter } from "./api/api";
 import dotenv from 'dotenv';
+import cors from "cors";
+import { errorMiddleware } from "./lib/errorMiddleware";
 
 
 dotenv.config({path: './config.env'});
@@ -20,8 +22,23 @@ const startServer = async () => {
     // Middleware
     app.use(express.json());
 
+
+
+    // CORS Middleware
+    app.use(
+      cors({
+        origin: "http://localhost:5173", // Replace with your React app's URL
+        credentials: true, // Allow cookies and authorization headers
+        allowedHeaders: ['Content-Type', 'Authorization']
+      })
+    );
+
+
     // Use the router
     app.use('/api/v1', apiRouter);
+
+    // Centralized error handling middleware
+    app.use(errorMiddleware)
 
 
     // Start the server

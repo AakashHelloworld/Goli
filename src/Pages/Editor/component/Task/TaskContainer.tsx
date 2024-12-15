@@ -84,7 +84,7 @@ export default function TaskContainer() {
           <TableRow key={invoice.invoice}>
             <TableCell className="flex gap-2 items-center">
                 <Checkbox />
-                <p>Make payment fast as soon as possible. Make payment fast as soon as possible.</p>
+                <p>{invoice.paymentMethod}</p>
             </TableCell>
             <TableCell className="text-left cursor-pointer">
                 <Pencil className="h-4 w-4 cursor-pointer "  />
