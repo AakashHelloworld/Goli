@@ -1,5 +1,4 @@
 import mongoose, { Document } from "mongoose";
-import bcrypt from "bcryptjs";
 
 // Define the user interface
 interface IUser extends Document {

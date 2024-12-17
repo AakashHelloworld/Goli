@@ -1,7 +1,5 @@
-import { Plus, List, Grid2X2, EllipsisVertical } from "lucide-react"
+import { List, Grid2X2 } from "lucide-react"
 import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-
 import {
     Select,
     SelectContent,
@@ -10,42 +8,17 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import CardList from "./CardList"
- 
+import CreatePlan from "./CreatePlan"
   
 
 export default function DashboardContainer(){
 
 return(
     <section className="w-full p-8">
-        <div className="p-2 border-[#171717] border-2 rounded p-[1rem] flex gap-4 ">
-            <div className="flex flex-col gap-4">
-            <div className="bg-[#171717] h-[7em] w-[10rem] rounded flex items-center justify-center cursor-pointer">
-                <Plus />
-            </div>
-            <Label className="ml-4">Blank</Label>
-            </div>
-            <div className="flex flex-col gap-4">
-            <div className="bg-[#171717] h-[7em] w-[10rem] rounded flex items-center justify-center cursor-pointer">
-            </div>
-            <Label className="ml-4">Flow chart</Label>
-            </div>
-        </div>
-
+        
+        <CreatePlan/>
         {/*  */}
-
-        <div className="w-full flex justify-between items-center p-2 mt-2">
-            <div>
-                <Label className="text-xl">Boards in this team</Label>
-            </div>
-            <div>
-                <Button className=""><Plus width={10} height={10}/> Create new</Button>
-            </div>
-        </div>
-
-        {/*  */}
-
         <div className="w-full flex items-center justify-between p-2 mt-1">
             <div className="flex gap-4 items-center">
                 <Label>Filter by</Label>

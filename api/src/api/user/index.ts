@@ -36,7 +36,7 @@ export class APIUser {
           httpOnly: true,
           secure: true,
           sameSite: "strict",
-          maxAge: 15 * 60 * 1000, // 15 minutes
+          maxAge: 2 * 7 * 24 * 60 * 60 * 1000 // two week
         });
 
         res.status(200).json({
@@ -46,10 +46,10 @@ export class APIUser {
       })
     );
 
+    //  Authentication needed from here
     router.use(authenticateToken)
 
     router.get('/isme', handleAsyncRequest(async(req, res)=>{
-      console.log(req?.user)
       res.status(200).json({
         message: "Authorized",
         user: req?.user

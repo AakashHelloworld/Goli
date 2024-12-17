@@ -2,6 +2,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user";
+import mongoose from "mongoose";
 
 // Load environment variables
 dotenv.config({ path: "../config.env" });
@@ -9,13 +10,17 @@ dotenv.config({ path: "../config.env" });
 // Extend Express Request to include `user`
 declare module "express-serve-static-core" {
   interface Request {
-    user?: JwtPayload | string;
+    user?: {
+      _id:any
+      Username: string,
+      Email: string,
+      Role: string,
+      ProfilePic: string
+    }
   }
 }
 
-export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {
-  console.log("Authenticating token...");
-  
+export const authenticateToken = async (req: Request, res: Response, next: NextFunction) => {  
   // Extract token from cookies
   const cookies = req.headers.cookie?.split(";").map(cookie => cookie.trim());
   const token = cookies?.find(cookie => cookie.startsWith("jwt="))?.split("=")[1];
@@ -38,7 +43,6 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
     req.user = userExist;
     next();
   } catch (error) {
-    console.error("Token verification failed:", error);
     return res.status(403).json({ message: "Invalid Token" });
   }
 };

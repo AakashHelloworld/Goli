@@ -1,5 +1,5 @@
 import React from "react";
-import axiosContainer from "../axiosContainer";
+import axiosContainer from "../lib/axiosContainer";
 import { useGlobalContext } from "@/provider/state-management";
 
 interface Context {
@@ -8,13 +8,12 @@ interface Context {
 
 export const useAuth = (): { isAuthenticated: boolean; loading: boolean } => {
   const { dispatch }: Context = useGlobalContext();
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+  const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(true);
 
   const FetchIsMe = async () => {
     try {
-      const { data } = await axiosContainer.get(`http://localhost:3000/api/v1/auth/isme`);
-      console.log(data?.user, "useAuth");
+      const { data } = await axiosContainer.get(`auth/isme`);
       if (data?.user && dispatch) {
         dispatch({ type: "USER_LOGIN", payload: data.user });
         setIsAuthenticated(true);
@@ -22,7 +21,6 @@ export const useAuth = (): { isAuthenticated: boolean; loading: boolean } => {
         setIsAuthenticated(false);
       }
     } catch (error) {
-      console.error(error);
       setIsAuthenticated(false);
     } finally {
       setLoading(false);

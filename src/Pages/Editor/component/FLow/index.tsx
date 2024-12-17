@@ -19,17 +19,17 @@ import {
 } from "@/components/ui/resizable"
 import Container from '../EditorContainer';
 import MiddleNode from '../Node/MiddleNode';
-const initialNodes : any = [
-];
-
-const initialEdges : any = [];
+import { FlowState } from '@/types/flow';
 
 const nodeType : any = { startnode: StartNode, endnode: EndNode, middlenode: MiddleNode };
+interface FlowProps {
+  flowState: FlowState;
+}
 
-function Flow() {
+function Flow({flowState}: FlowProps) {
   
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const [nodes, setNodes] = useState(flowState.nodes);
+  const [edges, setEdges] = useState(flowState.edges);
   const [selectNode , setSelectNode] = useState(null)
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>()
   const [show, setShow] = useState(false)
@@ -63,7 +63,6 @@ function Flow() {
 
   const onNodeClick = useCallback((event: any, node : any) => {
       event.preventDefault()
-      console.log(node)
       if(node.type === 'startnode' || node.type === 'endnode') {
         setSelectNode(null)
         setShow(false)

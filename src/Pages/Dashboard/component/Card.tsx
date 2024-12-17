@@ -6,20 +6,24 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
+import { Goalplan } from "@/types/flow"
+import { Link } from "react-router-dom"
+interface Props {
+    goalInformation: Goalplan
+}
 
-export default function CardSmall(){
+export default function CardSmall({goalInformation}:Props){
 
 
     return(
+        <Link to={goalInformation._id} >
         <Card className="w-[250px]">   
         <CardHeader className="p-3 mb-1">
             <div className="w-full flex justify-between items-center">
                 <div className="flex flex-col gap-1">
-                    <Label>Hello world</Label>
-                    <Label className="text-[10px]">oct 20 - oct 30</Label>
+                    <Label>{goalInformation?.Title}</Label>
                 </div>
             <div>
                 <DropdownMenu>
@@ -46,5 +50,6 @@ export default function CardSmall(){
 
         </CardContent>
     </Card>
+    </Link>
     )
 }

@@ -1,13 +1,11 @@
-import React from "react";
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./hooks/useAuth";
+import { useAuth } from "../hooks/useAuth";
 import { Loader2 } from "lucide-react";
 
 const PrivateRoutes = () => {
-  const location = useLocation();
+  let location = useLocation()
+  console.log(location)
   const { isAuthenticated, loading } = useAuth();
-
-  console.log("Current location:", location.pathname);
 
   if (loading) {
     // Show a loader while checking authentication
@@ -22,7 +20,9 @@ const PrivateRoutes = () => {
     // Redirect to login if user is not authenticated
     return <Navigate to="/login" replace />;
   }
-
+  if(location?.pathname == '/login'){
+    return <Navigate to="/editor" replace />
+  }
   // Render protected routes if authenticated
   return <Outlet />;
 };

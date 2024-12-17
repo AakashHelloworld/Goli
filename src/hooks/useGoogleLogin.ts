@@ -2,7 +2,6 @@ import { useGlobalContext } from "@/provider/state-management";
 import axios from "axios";
 import { CredentialResponse } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
-import {URL} from "@/Data/Url"
 interface Context {
     state?:{
       userdata:{
@@ -38,7 +37,6 @@ export const useGoogleLogin = () => {
         navigate('/editor')
       }
     } catch (error) {
-      console.error("Error during Google login:", error);
     }
   };
 

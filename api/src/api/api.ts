@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import { APIUser } from './user';
 import { handleAsyncRequest, APIError } from '../lib/handle-async-request';
+import { APIGOALPLAN } from './goalFlow';
 
 
 export class APIRouter {
@@ -9,6 +10,8 @@ export class APIRouter {
         const router = Router();
 
         router.use('/auth', APIUser.instance());
+
+        router.use('/goalplan', APIGOALPLAN.instance())
 
         // Fall back to 404 for anything else
         router.use(notFound);
