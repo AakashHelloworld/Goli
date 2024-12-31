@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import {Loader2, Plus} from "lucide-react"
-import usePost from "@/hooks/usePost";
+import usePost from "@/hooks/RequestServer/usePost";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner"
 
@@ -11,8 +11,8 @@ export default function CreatePlan(){
     const { mutateAsync: createPlanSubmit, isLoading } = usePost({
         url: "goalplan/",
         onSuccess: (data) => {
-            console.log("Plan created successfully:", data);
             toast.success('Plan Successfully Created')
+            
             navigate(`${data?.data?._id}`)
         },
         onError: () => {

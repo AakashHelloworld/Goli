@@ -1,3 +1,4 @@
+import React, {useState} from "react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,21 +9,32 @@ import {
   } from "@/components/ui/dropdown-menu"
 import { Avatar } from "@/components/ui/avatar"
 import { User, Settings, LogOut } from "lucide-react"  
-import { useGlobalContext } from "@/provider/state-management"
+import { useAuthGlobal } from "@/provider/state-management"
 export default function AvatarContainer(){
-    const {state}: any = useGlobalContext()
+    const {state}: any = useAuthGlobal()
+    const [errorImg, seterrorImg] = useState(false)
 
     return(
         <div>
         <DropdownMenu>
         <DropdownMenuTrigger asChild>
             <Avatar >
-            <img width={30} height={30} className="rounded-full cursor-pointer" src={state.userdata?.profilePic} />
+                {
+                    errorImg ? <span className="w-[30px] h-[30px] rounded-full border-white border-2 flex justify-center items-center cursor-pointer ">{state?.userdata?.username[0]}</span> :
+            <img width={30} height={30} className="rounded-full cursor-pointer" src={state.userdata?.profilePic} onError={()=>{
+                seterrorImg(true)
+            }}/>
+                }
             </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="p-2 w-[20rem] mr-8">
         <DropdownMenuItem >
-            <img width={30} height={30} className="rounded-full" src={state.userdata?.profilePic} />
+        {
+                    errorImg ? <span className="w-[30px] h-[30px] rounded-full border-white border-2 flex justify-center items-center cursor-pointer ">{state?.userdata?.username[0]}</span> :
+            <img width={30} height={30} className="rounded-full cursor-pointer" src={state.userdata?.profilePic} onError={()=>{
+                seterrorImg(true)
+            }}/>
+                }
              <DropdownMenuLabel className='font-bold capitalize'>{state?.userdata?.username}</DropdownMenuLabel>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

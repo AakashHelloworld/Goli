@@ -7,9 +7,9 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import Resource from "./Resource";
+import { NodeContext } from "@/types/context";
 
-
-export default function Resources() {
+export default function Resources({state, dispatch}:NodeContext) {
     return (
         <Card className="" >
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -17,10 +17,9 @@ export default function Resources() {
             <CardTitle>Add Resources</CardTitle>
             <CardDescription>Place to add resources</CardDescription>
             </div>
-            <Button> Save</Button>
         </CardHeader>
         <CardContent className="flex items-center" >
-            <Resource />
+            <Resource state={state} dispatch={dispatch} />
         </CardContent>
     </Card>
     )

@@ -25,11 +25,10 @@ export interface FlowState {
 
 export interface Goalplan {
     Title: string;
-    CreatedAt: Date;
+    CreatedAt: string;
     _id: string
     Content: FlowState;
     UserId: string,
-    __v: number
 }
 
 export interface ResponseOnePlan {

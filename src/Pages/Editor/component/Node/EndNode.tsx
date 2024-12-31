@@ -1,18 +1,23 @@
 import { Handle, Position } from '@xyflow/react';
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+
 
 function EndNode({isConnectable } : any) {
   return (
-    <div className="w-[150px] flex items-center justify-center rounded-sm bg-[#1e1e1e] p-2 border border-[#3c3c3c]">
-            <h1 className="text-[12px]">End Node !!!</h1>
+    <Card className="relative dark:border-muted-foreground/70 w-[10rem] flex justify-center items-center h-[100px]">
+      <CardHeader>
+            <h1 className="font-semibold leading-none tracking-tight">End Node !!!</h1>
+      </CardHeader>
       <Handle
         type="target"
         position={Position.Top}
         id="a"
-        style={{ background: 'black', width: 7, height: 7 , border: '2px solid white'}}
+        style={{ width:15, height: 15 , border: '2px solid white', backgroundColor: 'black'}}
         isConnectable={isConnectable}
+  
       />
 
-    </div>
+    </Card>
   );
 }
 

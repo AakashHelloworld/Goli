@@ -13,6 +13,12 @@ const reducer = (state : any, action :any) : any=>{
                     role: userdata?.Role
                     } 
             }
+        case 'ACTIVE_NODE':
+            const node = action.payload
+            return{
+                ...state,
+                currentnode:node
+            }
     }
 }
 

@@ -1,131 +1,152 @@
-import { useState, useCallback } from 'react';
-import {
-  ReactFlow,
-  Controls,
-  applyNodeChanges,
-  ReactFlowInstance,
-  applyEdgeChanges,
-  Background,
-  addEdge,
-} from '@xyflow/react';
-import  {v4} from 'uuid';
+import { useState } from 'react';
+
+// React Flow 
+import {ReactFlow,  Controls, applyNodeChanges, ReactFlowInstance,  applyEdgeChanges, Background, addEdge,  Panel} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+
+// Node 
 import StartNode from '../Node/StartNode';
 import EndNode from '../Node/EndNode';
+import MiddleNode from '../Node/MiddleNode';
+
+// Resizable 
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"
+
+// Node Provider
+import { useNodeGlobal } from '@/nodesProvider/node-state-management';
+
+// Components
+import { Button } from '@/components/ui/button';
 import Container from '../EditorContainer';
-import MiddleNode from '../Node/MiddleNode';
+
+// Types
 import { FlowState } from '@/types/flow';
 
-const nodeType : any = { startnode: StartNode, endnode: EndNode, middlenode: MiddleNode };
+// Custom Hooks
+import { useConnect } from '@/hooks/NodeHooks/useConnect';
+import { useEdgesChange } from '@/hooks/NodeHooks/useEdgesChange';
+import { useNodesChanges } from '@/hooks/NodeHooks/useNodesChange';
+import { useNodeDragOver } from '@/hooks/NodeHooks/useNodeDragOver';
+import { useNodeOnDrop } from '@/hooks/NodeHooks/useNodeOnDrop';
+import { useNodeDelete } from '@/hooks/NodeHooks/useNodeDelete';
+import { useNodeOnClick } from '@/hooks/NodeHooks/useNodeOnClick';
+import { useParams } from 'react-router-dom';
+import usePatch from '@/hooks/RequestServer/usePatch';
+import { NodeContext } from '@/types/context';
+// Icons
+import { Loader2 } from 'lucide-react';
+import { RefreshCcw} from "lucide-react"
+
+
+// Node
+const nodeType : { [key: string]: (props: any) => JSX.Element} = { startnode: StartNode, endnode: EndNode, middlenode: MiddleNode };
+
+
 interface FlowProps {
   flowState: FlowState;
+  children?: React.ReactNode
 }
-
-function Flow({flowState}: FlowProps) {
   
+function Flow({flowState, children}: FlowProps) {
+  //  Globla Context
+  const { dispatch} : NodeContext = useNodeGlobal()
+  const param = useParams();
   const [nodes, setNodes] = useState(flowState.nodes);
   const [edges, setEdges] = useState(flowState.edges);
   const [selectNode , setSelectNode] = useState(null)
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>()
   const [show, setShow] = useState(false)
+  
 
-  const onDragOver = useCallback((event: any) => {
-    event.preventDefault()
-    event.dataTransfer.dropEffect = 'move'
-  }, [])
+  //  change controller
+  const onDragOver = useNodeDragOver();
 
-  const onDrop = useCallback(
-    (event: any) => {
-      event.preventDefault()
-      const type = event.dataTransfer.getData('text')
-      if(!reactFlowInstance) return
-      const position = reactFlowInstance.screenToFlowPosition({ x: event.clientX, y: event.clientY })
-      const newNode = {
-        id: v4(),
-        type,
-        data: { label: event.dataTransfer.getData('text') },
-        position,
-      }
-      if(type === 'middlenode') {
-        setShow(true)
-      }
-      setNodes((nds : any) => nds.concat(newNode))
+  const onDrop = useNodeOnDrop({reactFlowInstance,setNodes,dispatch,setShow   })
 
-    },
-    [reactFlowInstance]
-  )
+  const onNodeClick = useNodeOnClick({setSelectNode, setShow, selectNode, show, dispatch })
+
+  const onNodesChange = useNodesChanges({setNodes, applyNodeChanges})
+
+  const onEdgesChange = useEdgesChange({setEdges, applyEdgeChanges})
+
+  const onConnect = useConnect({setEdges, addEdge})
+
+  const onNodeDelete = useNodeDelete({setNodes, setSelectNode, setShow, setEdges,edges, nodes })
 
 
-  const onNodeClick = useCallback((event: any, node : any) => {
-      event.preventDefault()
-      if(node.type === 'startnode' || node.type === 'endnode') {
-        setSelectNode(null)
-        setShow(false)
-        return
-      }
-      if(node.id === selectNode && show === true){
-        setShow(false)
-        return 
-      }
-      setSelectNode(node.id)
-      setShow(true)
-  },[show, selectNode])
+  // update 
+  const {mutateAsync: updateContent, isLoading} = usePatch({
+    url: `/goalplan/${param?.id}`,
+     onSuccess: () => {
+       
+     }
+  }) 
 
 
-  const onNodesChange = useCallback(
-    (changes : any) => setNodes((nds : any) => applyNodeChanges(changes, nds)),
-    [],
-  );
-  const onEdgesChange = useCallback(
-    (changes : any) => setEdges((eds : any) => applyEdgeChanges(changes, eds)),
-    [],
-  );
-
-  const onConnect = useCallback(
-    (params : any) => setEdges((eds : any) => addEdge({...params, animated: true}, eds)),
-    [],
-  );
 
   return (
       <ResizablePanelGroup direction='horizontal' className='w-[100%] h-[100%]'>
-      <ResizablePanel defaultSize={show ? 60 : 100}>
+      <ResizablePanel defaultSize={show ? 70 : 100}>
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
         edges={edges}
+        minZoom={0.3}
         onDrop={onDrop}
         onInit={setReactFlowInstance}
-        defaultViewport={{ x: 0, y: 0, zoom: 1}}
+        defaultViewport={{ x: 0, y: 0, zoom: 0.5}}
         onPaneClick={() => setShow(false)}
         onNodeClick={onNodeClick}
         onDragOver={onDragOver}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}    
+        onNodesDelete={onNodeDelete}
         nodeTypes={nodeType}
         colorMode='dark'
         panOnScroll
-        fitView
+        fitView={false}
       > 
-        <Background 
+            <Panel position="bottom-left">
+            <Button
+          disabled={isLoading}
+          variant={'outline'}
+          className='w-[7rem]'
+          onClick={()=>updateContent({
+            Content: {
+              nodes: nodes,
+              edges: edges
+            }
+          })}
+          >
+            {isLoading ? <Loader2 /> : 
+            <>
+            <RefreshCcw width={20} height={20}/> <p>Save</p>
+            </>
+            }
+          </Button>
+            </Panel>
+         <Background 
           gap={20}
           size={1}
         />
         <Controls position='top-right'  />
       </ReactFlow>
       </ResizablePanel>
+      <ResizableHandle />
       { show && 
       <>
-      <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={40} >
-        <Container />
+      <ResizablePanel defaultSize={30} >
+        {
+          children
+        }
       </ResizablePanel>
       </>
-      }
+      } 
+
 
       </ResizablePanelGroup>
   );

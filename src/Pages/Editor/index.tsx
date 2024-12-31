@@ -4,56 +4,65 @@ import { Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import AppSidebar from './component/Slider';
 import { useParams } from "react-router-dom";
-import useGet from "@/hooks/useGet";
-import { Ban, Loader2 } from "lucide-react";
-import { useState } from "react";
-import {ResponseOnePlan, FlowState } from "@/types/flow"
-export default function Editor() {
-    const [flowState, setFlowState] = useState<FlowState>({
-        nodes:[],
-        edges:[]
-    });
-    const param = useParams();
+import useGet from "@/hooks/RequestServer/useGet";
+import {BotMessageSquareIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNodeGlobal } from "@/nodesProvider/node-state-management";
+import { NodeContext } from "@/types/context";
+import Container from "./component/EditorContainer";
 
-    const { data: plan, isLoading, isError } = useGet(
+export default function Editor() {
+    const param = useParams();
+    const {dispatch}:NodeContext = useNodeGlobal()
+
+    const {data,isLoading, isError } = useGet(
         ["OneGoalPlan", param?.id], 
         {
             url: `goalplan/${param?.id}`,
-            onSuccess: (data: ResponseOnePlan) => {
-                console.log("Fetched plans successfully:", data);
-                setFlowState(data.data.Content)
-            },
-            onError: (error) => {
-                console.error("Error fetching plans:", error);
-            },
-        }
+            onSuccess: (data) => {
+                if(data.data.allNodesData.length > 0){
+                    if(dispatch){
+                        
+                        dispatch({type: 'SET_ALL_NODES', payload: data.data.allNodesData})
+                    }
+                }
+            }
+        },
     );
+
     if(isLoading){
         return( 
         <div className="h-screen flex justify-center items-center">
-            <Loader2/>
+            loading....
         </div>
         )
     }
     if(isError){
         return(
-        <div className="h-screen flex justify-center items-center">
-            <Ban />
+        <div className="h-screen flex-col flex  gap-2 justify-center items-center">
+            <Label>Check your connection and try again</Label>
+            <Button onClick={()=>window.location.reload()}>Refresh</Button>
         </div>
         )     
     }
-    console.log(plan)
+    
     return (
         <SidebarProvider>
             <AppSidebar />
             <main className="h-[100vh] flex flex-col  justify-center items-center w-full relative" >
                 <div className="w-full h-[3.5rem] flex items-center gap-2 text-white py-2">
-                <SidebarTrigger />
-                 <Label className="font-sans" >BUILD YOUR PLAN</Label>
+                    <SidebarTrigger />
+                    <Label className="font-sans" >BUILD YOUR PLAN</Label>
                 </div>
                 <Card className="w-[100%] h-[100%] overflow-hidden rounded-none	 border-zinc-800 border-l-0">
-                    <Flow flowState={flowState} />
+                    { (data && data?.data?.goal?._id) && 
+                    <Flow flowState={data?.data?.goal?.Content} >
+                        <Container/>
+                    </Flow>}
                 </Card>
+                <div className='fixed bottom-5 right-5 w-[10rem] rounded h-[50px] border border-zinc-800 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground z-[9999] flex items-center justify-center gap-2 cursor-pointer'>
+                        < BotMessageSquareIcon width={20} height={20}/> <p >Chat with AI</p>
+                </div>
             </main>
         </SidebarProvider>
     )

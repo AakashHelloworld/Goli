@@ -36,7 +36,7 @@ export class APIUser {
           httpOnly: true,
           secure: true,
           sameSite: "strict",
-          maxAge: 2 * 7 * 24 * 60 * 60 * 1000 // two week
+          maxAge: 60 * 7 * 24 * 60 * 60 * 1000 // two week
         });
 
         res.status(200).json({

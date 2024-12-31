@@ -1,8 +1,19 @@
-"use client";
 import React, { createContext, useContext, useReducer } from 'react';
 import reducer from './reducer';
 
-const AppContext = createContext({});
+const AuthContext = createContext({});
+
+interface Node {
+  Name: string,
+  Description: string,
+  NodeReference: string,
+  _id: string, 
+  TaskContainer: any[]
+  Resources: any[]
+  DateStarted: string
+  DateEnded?: string
+}
+
 
 interface InitialState {
   userdata: {
@@ -12,6 +23,7 @@ interface InitialState {
     profilePic: string
     role: string
 };
+currentnode: Node | null
 }
 
 const initialState: InitialState = {
@@ -22,19 +34,20 @@ const initialState: InitialState = {
           profilePic: '',
           role: ''
         },
+  currentnode:null
 };
 
-const AppProvider = ({ children }: { children: React.ReactNode }) => {
+const AuthenticationProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
+    <AuthContext.Provider value={{ state, dispatch }}>
       {children}
-    </AppContext.Provider>
+    </AuthContext.Provider>
   );
 };
 
-const useGlobalContext = () => {
-  return useContext(AppContext);
+const useAuthGlobal = () => {
+  return useContext(AuthContext);
 };
 
-export { useGlobalContext, AppProvider };
+export { useAuthGlobal ,AuthenticationProvider };

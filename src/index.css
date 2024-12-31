@@ -169,18 +169,8 @@
   box-sizing: border-box;
 }
 
-.react-flow__panel{
+
+.react-flow__attribution{
   display: none;
 }
 
-
-/* .dark {
-  --sidebar-background: 0 0% 0%;
-  --sidebar-foreground: 0 4% 16%;
-  --sidebar-primary: 0 0% 100%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 240 3.7% 15.9%;
-  --sidebar-accent-foreground: 240 4.8% 95.9%;
-  --sidebar-border: 240 3.7% 15.9%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
-} */

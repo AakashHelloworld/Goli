@@ -1,4 +1,4 @@
-import { useGlobalContext } from "@/provider/state-management";
+import { useAuthGlobal } from "@/provider/state-management";
 import axios from "axios";
 import { CredentialResponse } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,7 @@ interface Context {
 
 
 export const useGoogleLogin = () => {
-  const { dispatch }: Context = useGlobalContext();
+  const { dispatch }: Context = useAuthGlobal();
   const navigate = useNavigate()
 
   const handleGoogleLoginSuccess = async (credentialResponse: CredentialResponse) => {

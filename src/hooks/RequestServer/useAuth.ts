@@ -1,13 +1,13 @@
 import React from "react";
-import axiosContainer from "../lib/axiosContainer";
-import { useGlobalContext } from "@/provider/state-management";
+import axiosContainer from "@/lib/axiosContainer";
+import { useAuthGlobal } from "@/provider/state-management";
 
 interface Context {
   dispatch?: (value: { type: string; payload: any }) => any;
 }
 
 export const useAuth = (): { isAuthenticated: boolean; loading: boolean } => {
-  const { dispatch }: Context = useGlobalContext();
+  const { dispatch }: Context = useAuthGlobal();
   const [isAuthenticated, setIsAuthenticated] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState<boolean>(true);
 

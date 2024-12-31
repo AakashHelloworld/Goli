@@ -1,6 +1,6 @@
 import { GoogleLogin } from "@react-oauth/google";
 import SideUI from "./component/SideUI";
-import { useGoogleLogin } from "@/hooks/useGoogleLogin";
+import { useGoogleLogin } from "@/hooks/RequestServer/useGoogleLogin";
 export default function AuthPage() {
 
   const { handleGoogleLoginSuccess } = useGoogleLogin();

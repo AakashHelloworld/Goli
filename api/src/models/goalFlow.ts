@@ -61,6 +61,7 @@ const planSchema = new mongoose.Schema<Goalplan>({
                     source: { type: String, required: true },
                     target: { type: String, required: true },
                     type: { type: String },
+                    animated: { type: Boolean },
                     label: { type: String },
                 },
             ],
