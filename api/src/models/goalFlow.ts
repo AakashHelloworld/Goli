@@ -13,9 +13,11 @@ interface FlowNode {
 interface FlowEdge {
     id: string;
     source: string;
+    animated?: boolean;
     target: string;
     type?: string;
     label?: string;
+    style: { strokeWidth: number }, 
 }
 
 // Define the Goalplan interface
@@ -63,6 +65,10 @@ const planSchema = new mongoose.Schema<Goalplan>({
                     type: { type: String },
                     animated: { type: Boolean },
                     label: { type: String },
+                    style: {
+                        strokeWidth: { type: Number, required: true, default: 4 },
+                        strok: { type: String , required: true, default: 'white'},
+                    },
                 },
             ],
             default: [],
