@@ -14,11 +14,6 @@ export const useNodeOnDrop =({reactFlowInstance,setNodes,dispatch,setShow }: any
           const newNode = {
             id: Id,
             type,
-            data: { label: event.dataTransfer.getData('text'),
-              taskContainer:"Hello WOrld",
-              date: new Date().toISOString()
-
-             },
             position,
           }
           setNodes((nds : any) => nds.concat(newNode))

@@ -84,7 +84,7 @@ export default function TaskContainer({state, dispatch }: NodeContext) {
         <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="flex gap-2 items-center"><Checkbox disabled />Check All tasks</TableHead>
+                  <TableHead className="flex gap-2 items-center"><Checkbox  />Check All tasks</TableHead>
                   <TableHead className="text-right">Action</TableHead>
                 </TableRow>
               </TableHeader>
@@ -97,7 +97,7 @@ export default function TaskContainer({state, dispatch }: NodeContext) {
                   <TableRow key={index}>
                     <TableCell className="flex gap-2 items-center">
                         <Checkbox
-                        disabled
+                        
                         defaultChecked={task?.Completed}
                           checked={task?.Completed}
                           onCheckedChange={async (checked) => {

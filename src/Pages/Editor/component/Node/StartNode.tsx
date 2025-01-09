@@ -6,13 +6,13 @@ function StartNode({isConnectable } : any) {
     const [connect, setConnect] = useState(false);
 
   return (
-    <Card className="relative dark:border-muted-foreground/70 w-[10rem] flex justify-center items-center h-[100px]">
+    <Card className="relative dark:border-muted-foreground/70 w-[15rem] flex justify-center items-center h-[80px]">
       <CardHeader>
       <h3 className="font-semibold leading-none tracking-tight">Start</h3>
       </CardHeader>
     <Handle
   type="source"
-  position={Position.Bottom}
+  position={Position.Right}
   id="a"
   // isConnectable={isConnectable}
   onConnect={() => setConnect(true)}

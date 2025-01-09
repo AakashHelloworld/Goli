@@ -52,6 +52,7 @@ export const useNodeDelete = ({ setSelectNode, setShow,setEdges,edges, nodes }: 
               id: `${source}->${target}`,
               source,
               target,
+              style: {strokeWidth: 4 },
               animated: true,
             })),
           );

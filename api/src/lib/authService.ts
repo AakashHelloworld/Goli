@@ -39,7 +39,7 @@ export class AuthService {
 
   static generateAccessToken(payload: object) {
     return jwt.sign(payload, process.env.JSON__SECRET as string, {
-      expiresIn: "15m",
+      expiresIn: "24d",
     });
   }
 }

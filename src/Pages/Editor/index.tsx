@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useNodeGlobal } from "@/nodesProvider/node-state-management";
 import { NodeContext } from "@/types/context";
 import Container from "./component/EditorContainer";
-
+import { ReactFlowProvider } from "@xyflow/react";
 export default function Editor() {
     const param = useParams();
     const {dispatch}:NodeContext = useNodeGlobal()
@@ -56,9 +56,12 @@ export default function Editor() {
                 </div>
                 <Card className="w-[100%] h-[100%] overflow-hidden rounded-none	 border-zinc-800 border-l-0">
                     { (data && data?.data?.goal?._id) && 
+                    <ReactFlowProvider>
                     <Flow flowState={data?.data?.goal?.Content} >
                         <Container/>
-                    </Flow>}
+                    </Flow>
+                    </ReactFlowProvider>
+                    }
                 </Card>
                 <div className='fixed bottom-5 right-5 w-[10rem] rounded h-[50px] border border-zinc-800 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground z-[9999] flex items-center justify-center gap-2 cursor-pointer'>
                         < BotMessageSquareIcon width={20} height={20}/> <p >Chat with AI</p>
