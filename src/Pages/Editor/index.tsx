@@ -47,6 +47,7 @@ export default function Editor() {
     }
     
     return (
+                    <ReactFlowProvider>
         <SidebarProvider>
             <AppSidebar />
             <main className="h-[100vh] flex flex-col  justify-center items-center w-full relative" >
@@ -56,11 +57,9 @@ export default function Editor() {
                 </div>
                 <Card className="w-[100%] h-[100%] overflow-hidden rounded-none	 border-zinc-800 border-l-0">
                     { (data && data?.data?.goal?._id) && 
-                    <ReactFlowProvider>
                     <Flow flowState={data?.data?.goal?.Content} >
                         <Container/>
                     </Flow>
-                    </ReactFlowProvider>
                     }
                 </Card>
                 <div className='fixed bottom-5 right-5 w-[10rem] rounded h-[50px] border border-zinc-800 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground z-[9999] flex items-center justify-center gap-2 cursor-pointer'>
@@ -68,5 +67,6 @@ export default function Editor() {
                 </div>
             </main>
         </SidebarProvider>
+                    </ReactFlowProvider>
     )
 }

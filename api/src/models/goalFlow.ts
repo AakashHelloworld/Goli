@@ -8,6 +8,7 @@ interface FlowNode {
         x: number;
         y: number;
     };
+    hidden: boolean;
 }
 
 interface FlowEdge {
@@ -52,6 +53,7 @@ const planSchema = new mongoose.Schema<Goalplan>({
                         x: { type: Number, required: true },
                         y: { type: Number, required: true },
                     },
+                    hidden: { type: Boolean, default: false },
                 },
             ],
             default: [],

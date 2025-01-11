@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 // React Flow 
-import {ReactFlow,  Controls, applyNodeChanges, ReactFlowInstance,  applyEdgeChanges, Background, addEdge,  Panel, useReactFlow} from '@xyflow/react';
+import {ReactFlow,  Controls, applyNodeChanges, ReactFlowInstance,  applyEdgeChanges, Background, addEdge,  Panel, useReactFlow, getOutgoers} from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
 // Node 
@@ -43,9 +43,7 @@ import usePatch from '@/hooks/RequestServer/usePatch';
 
 
 // Icons
-import { Loader2 } from 'lucide-react';
 import { RefreshCcw} from "lucide-react"
-import { v4 } from 'uuid';
 
 
 // Node
@@ -66,7 +64,7 @@ function Flow({flowState, children}: FlowProps) {
   const [edges, setEdges] = useState(flowState.edges);
   const [selectNode , setSelectNode] = useState(null)
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance>()
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false)  
 
 
   useEffect(() => {
@@ -131,7 +129,7 @@ function Flow({flowState, children}: FlowProps) {
 
   const onDrop = useNodeOnDrop({reactFlowInstance,setNodes,dispatch,setShow   })
 
-  const onNodeClick = useNodeOnClick({setSelectNode, setShow, selectNode, show, dispatch })
+  const onNodeClick = useNodeOnClick({setSelectNode, setShow, selectNode, show, dispatch, nodes, edges, setNodes })
 
   const onNodesChange = useNodesChanges({setNodes, applyNodeChanges})
 

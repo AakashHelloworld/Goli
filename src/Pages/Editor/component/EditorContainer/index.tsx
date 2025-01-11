@@ -7,7 +7,6 @@ import { NodeContext } from "@/types/context";
 
 export default function Container () {
     const {state, dispatch}:NodeContext = useNodeGlobal()
-    console.log('rendering...........')
     return (
         <div className="w-full h-full p-2 overflow-y-scroll">
             <NodeInformation state={state} dispatch={dispatch} />

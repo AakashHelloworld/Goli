@@ -21,7 +21,8 @@ export const useConnectionEnd = ({ setSelectNode, setShow,setEdges,edges, nodes,
             x: clientX,
             y: clientY,
           }),
-          data: { label: `Node ${id}` },
+          data: { hidden: false },
+          hidden: false,
           origin: [0.5, 0.0],
         };
  

@@ -15,6 +15,8 @@ export const useNodeOnDrop =({reactFlowInstance,setNodes,dispatch,setShow }: any
             id: Id,
             type,
             position,
+            data: { hidden: false },
+            hidden: false
           }
           setNodes((nds : any) => nds.concat(newNode))
           if(type === 'middlenode') {          await axiosContainer.post(`node/${Id}`).then((data)=>{

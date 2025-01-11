@@ -18,12 +18,15 @@ import usePost from "@/hooks/RequestServer/usePost"
 import { NodeContext } from "@/types/context"
 import usePatch from "@/hooks/RequestServer/usePatch"
 import useDelete from "@/hooks/RequestServer/useDelete"
-
-
+import { useNodes, getIncomers, useEdges } from "@xyflow/react"
 export default function TaskContainer({state, dispatch }: NodeContext) {
   const [Name,setName] = useState<string>("")
   const [taskSelected, setTaskSelected] = useState<string>("")
   const [edit, setEdit] = useState(false);
+  const  allNodesData  = useNodes();
+  const  allEdgesData  = useEdges();
+
+
 
   // Create Task
   const { mutateAsync: createTask} = usePost({
@@ -52,6 +55,42 @@ export default function TaskContainer({state, dispatch }: NodeContext) {
       dispatch && dispatch({type: "UPDATE_NODE", payload: data.data})
     }
   })
+
+  function isDisabled(task: any): boolean {
+    // console.log(allNodesData, "allNodesData")
+    // console.log(allEdgesData, "allEdgesData")
+    const currentnode : any = allNodesData.find((node: any) => node.id === task.NodeReference);
+    //  console.log(currentnode, "currentnode")
+    let disable  = false;
+
+    if(!currentnode?.id) return disable
+
+    const incomers = getIncomers(currentnode ,allNodesData, allEdgesData);
+    // console.log(incomers, "incomers")
+    
+    if(incomers?.length > 0){
+      for (let i = 0; i < incomers.length; i++) {
+        const incomer = incomers[i];
+        const tasks: any = state?.nodes?.find((node: any) => node?.NodeReference === incomer.id)?.TaskContainer;
+        if(tasks?.length > 0){
+          for (let j = 0; j < tasks.length; j++) {
+            const task = tasks[j];
+            if(task?.Completed == false){
+              disable = true;
+            }
+          }
+
+        }
+      }
+
+    }
+    
+    return  disable
+  }
+
+  isDisabled(state?.currentnode)
+
+
 
 
  return (      
@@ -97,8 +136,8 @@ export default function TaskContainer({state, dispatch }: NodeContext) {
                   <TableRow key={index}>
                     <TableCell className="flex gap-2 items-center">
                         <Checkbox
-                        
-                        defaultChecked={task?.Completed}
+                          disabled={isDisabled(state?.currentnode)}
+                          defaultChecked={task?.Completed}
                           checked={task?.Completed}
                           onCheckedChange={async (checked) => {
                             setTaskSelected(task?._id)
