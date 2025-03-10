@@ -16,7 +16,7 @@ export const useNodeDelete = ({ setSelectNode, setShow,setEdges,edges, nodes }: 
           deletedNodes.map((node) =>
             axiosContainer.delete(`node/${node.id}`).then((response) => {
             })
-          )
+          ) 
         );
 
         // Update the local state by filtering out deleted nodes
